@@ -16,10 +16,13 @@ return new class extends Migration
             $table->string('name');
             $table->text('description');
             $table->decimal('price', 10, 2);
-            $table->string('category');
+            $table->unsignedBigInteger('category_id');
+            $table->string('img')->nullable();
             $table->boolean('is_active');
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });
     }
 
