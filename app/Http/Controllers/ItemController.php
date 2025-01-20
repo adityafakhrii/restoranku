@@ -10,12 +10,12 @@ class ItemController extends Controller
     public function index()
     {
         $items = Item::all();
-        return view('item.index', compact('items'));
+        return view('admin.item.index', compact('items'));
     }
 
     public function create()
     {
-        return view('item.create');
+        return view('admin.item.create');
     }
 
     public function store(Request $request)
@@ -33,14 +33,9 @@ class ItemController extends Controller
         return redirect()->route('item.index')->with('success', 'Item created successfully.');
     }
 
-    public function show(Item $item)
-    {
-        return view('item.show', compact('item'));
-    }
-
     public function edit(Item $item)
     {
-        return view('item.edit', compact('item'));
+        return view('admin.item.edit', compact('item'));
     }
 
     public function update(Request $request, Item $item)
@@ -62,6 +57,6 @@ class ItemController extends Controller
     {
         $item->delete();
 
-        return redirect()->route('item.index')->with('success', 'Item deleted successfully.');
+        return redirect()->route('admin.item.index')->with('success', 'Item deleted successfully.');
     }
 }
