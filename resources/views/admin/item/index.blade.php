@@ -1,28 +1,33 @@
 @extends('admin.layouts.master')
 
-@section('title', 'Menu | Restoranku')
+@section('title', 'Menu')
 
 @section('css')
-<link rel="stylesheet" href="assets/extensions/simple-datatables/style.css">
+<link rel="stylesheet" crossorigin href="{{ asset('assets/extensions/simple-datatables/style.css') }}" crossorigin>
 
-<link rel="stylesheet" crossorigin href="./assets/compiled/css/table-datatable.css">
+<link rel="stylesheet" crossorigin href="{{ asset('assets/compiled/css/table-datatable.css') }}" crossorigin>
 @endsection
 
 @section('content')
 
 <div class="page-heading">
     <div class="page-title">
-        <div class="row">
-            <div class="col-12 col-md-6 order-md-1 order-last">
+        <div class="row mb-3">
+            <div class="col-lg-9 col-sm-12">
                 <h3>Daftar Menu</h3>
+                <p class="text-subtitle text-muted">Berbagai pilihan menu terbaik!</p>
             </div>
-            <div class="col-12 col-md-6 order-md-2 order-first">
-                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+            <div class="col-lg-3 col-sm-12">
+                {{-- <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
                         <li class="breadcrumb-item active" aria-current="page">DataTable</li>
                     </ol>
-                </nav>
+                </nav> --}}
+                <a href="{{ route('items.create') }}" class="btn btn-primary float-start float-lg-end">
+                    <i class="bi bi-plus"></i>
+                    Tambah Menu
+                </a>
             </div>
         </div>
     </div>
@@ -47,7 +52,7 @@
                             <td>{{ Str::limit($item->description, 15) }}</td>
                             <td>{{ 'Rp' . number_format($item->price, 0, ',', '.') }}</td>
                             <td>
-                                <span class="badge {{ $item->category->cat_name == 'Makanan' ? 'bg-primary' : 'bg-info' }}">
+                                <span class="badge {{ $item->category->cat_name == 'Makanan' ? 'bg-warning' : 'bg-info' }}">
                                     {{ $item->category->cat_name }}
                                 </span>
                             </td></td>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use Illuminate\Http\Request;
+use App\Models\Category;
 
 class ItemController extends Controller
 {
@@ -15,7 +16,8 @@ class ItemController extends Controller
 
     public function create()
     {
-        return view('admin.item.create');
+        $categories = Category::all();
+        return view('admin.item.create', compact('categories'));
     }
 
     public function store(Request $request)
