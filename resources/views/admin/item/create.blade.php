@@ -10,11 +10,23 @@
 
 @section('content')
 <div class="card">
+
     <div class="card-header">
-        <h4 class="card-title">Tambah Data</h4>
+        <h4 class="card-title">Tambah Data Menu</h4>
     </div>
     <div class="card-content">
+
         <div class="card-body">
+
+            @if ($errors->any())
+            <div class="alert alert-danger">
+                <h4 class="alert-heading">Submit error!</h4>
+                @foreach ($errors->all() as $error)
+                    <li><i class="bi bi-file-excel"></i> {{ $error }}</li>
+                @endforeach
+            </div>
+            @endif
+
             <form class="form form-vertical" method="POST" action="{{ route('items.store') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="form-body">
@@ -34,9 +46,9 @@
                             <div class="form-group has-icon-left">
                                 <label for="description">Deskripsi</label>
                                 <div class="position-relative">
-                                    <input type="text" class="form-control" name="description" placeholder="Deskripsi" id="description" required>
+                                    <textarea class="form-control" name="description" placeholder="Deskripsi" id="description" required></textarea>
                                     <div class="form-control-icon">
-                                        <i class="bi bi-envelope"></i>
+                                        <i class="bi bi-file-earmark-text"></i>
                                     </div>
                                 </div>
                             </div>
@@ -57,8 +69,9 @@
                                 <label for="category_id">Kategori</label>
                                 <div class="position-relative">
                                     <select class="form-control" name="category_id" id="category_id" required>
+                                        <option value="" disabled selected>Pilih Kategori Menu</option>
                                         @foreach($categories as $category)
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            <option value="{{ $category->id }}">{{ $category->cat_name }}</option>
                                         @endforeach
                                     </select>
                                     <div class="form-control-icon">
@@ -68,27 +81,18 @@
                             </div>
                         </div>
                         <div class="col-12">
-                            <div class="form-group has-icon-left">
+                            <div class="form-group">
                                 <label for="image">Gambar</label>
-                                <div class="position-relative">
-                                    <input type="file" class="form-control" name="image" id="image">
-                                    <div class="form-control-icon">
-                                        <i class="bi bi-image"></i>
-                                    </div>
-                                </div>
+                                <input type="file" class="form-control" name="img" id="image">
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-group has-icon-left">
-                                <label for="is_active">Status Aktif</label>
-                                <div class="position-relative">
-                                    <select class="form-control" name="is_active" id="is_active" required>
-                                        <option value="1">Aktif</option>
-                                        <option value="0">Tidak Aktif</option>
-                                    </select>
-                                    <div class="form-control-icon">
-                                        <i class="bi bi-toggle-on"></i>
-                                    </div>
+                                <label for="is_active">Status</label>
+                                <div class="form-check form-switch">
+                                    <input type="hidden" name="is_active" value="0">
+                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" name="is_active" value="1" checked>
+                                    <label class="form-check-label" for="flexSwitchCheckChecked">Aktif/Tidak Aktif</label>
                                 </div>
                             </div>
                         </div>
@@ -102,8 +106,6 @@
         </div>
     </div>
 </div>
-@endsection
 
-@section('js')
-<script src="{{ asset('assets/extensions/filepond-plugin-image-preview/filepond-plugin-image-preview.min.js') }}"></script>
+
 @endsection
