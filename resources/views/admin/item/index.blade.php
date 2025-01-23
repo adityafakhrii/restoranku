@@ -18,12 +18,12 @@
                 <p class="text-subtitle text-muted">Berbagai pilihan menu terbaik!</p>
             </div>
             <div class="col-lg-3 col-sm-12">
-                {{-- <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">DataTable</li>
+                        <li class="breadcrumb-item"><a href="{{ url('index') }}">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Daftar Menu</li>
                     </ol>
-                </nav> --}}
+                </nav>
                 <a href="{{ route('items.create') }}" class="btn btn-primary float-start float-lg-end">
                     <i class="bi bi-plus"></i>
                     Tambah Menu
