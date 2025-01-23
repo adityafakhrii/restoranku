@@ -46,7 +46,7 @@ class ItemController extends Controller
         if ($request->hasFile('img')) {
             $image = $request->file('img');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images'), $imageName);
+            $image->move(public_path('img_item_upload'), $imageName);
             $validatedData['img'] = $imageName;
         }
 
