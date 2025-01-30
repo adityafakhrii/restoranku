@@ -55,30 +55,68 @@ class ItemController extends Controller
         return redirect()->route('items.index')->with('success', 'Item created successfully.');
     }
 
-    public function edit(Item $item)
+    public function edit($id)
     {
-        return view('admin.item.edit', compact('item'));
+        $item = Item::findOrFail($id);
+        $categories = Category::all();
+        return view('admin.item.edit', compact('item', 'categories'));
     }
+
+
 
     public function update(Request $request, Item $item)
     {
-        $request->validate([
+        // $request->validate([
+        //     'name' => 'required|string|max:255',
+        //     'description' => 'required|string',
+        //     'price' => 'required|numeric',
+        //     'category' => 'required|string|max:255',
+        //     'is_active' => 'required|boolean',
+        // ]);
+
+        // $item->update($request->all());
+
+        $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric',
-            'category' => 'required|string|max:255',
+            'category_id' => 'required|integer|exists:categories,id',
+            'img' => 'sometimes|image|mimes:jpg,png|max:2048',
             'is_active' => 'required|boolean',
+        ], [
+            'name.required' => 'Name field is required.',
+            'description.required' => 'Description field is required.',
+            'price.required' => 'Price field is required.',
+            'category_id.required' => 'Category field is required.',
+            'category_id.exists' => 'Selected category does not exist.',
+            'img.image' => 'Image field must be an image.',
+            'img.mimes' => 'Image must be a file of type: jpg, png.',
+            'img.max' => 'Image size must not exceed 2MB.',
+            'is_active.required' => 'Active status field is required.',
         ]);
 
-        $item->update($request->all());
+        // Handle file upload
+        if ($request->hasFile('img')) {
+            $image = $request->file('img');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('img_item_upload'), $imageName);
+            $validatedData['img'] = $imageName;
+        }
 
-        return redirect()->route('item.index')->with('success', 'Item updated successfully.');
+        $item->update($validatedData);
+
+        return redirect()->route('items.index')->with('success', 'Item updated successfully.');
     }
 
     public function destroy(Item $item)
     {
+        // Set is_active to false
+        $item->is_active = false;
+        $item->save();
+
+        // Perform soft delete
         $item->delete();
 
-        return redirect()->route('admin.item.index')->with('success', 'Item deleted successfully.');
+        return redirect()->route('items.index')->with('success', 'Item deleted successfully.');
     }
 }
