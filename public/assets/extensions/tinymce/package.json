@@ -30,6 +30,6 @@
 		"url": "https://github.com/tinymce/tinymce/issues"
 	},
 	"dependencies": {
-		"tinymce": "file:"
+		"tinymce": "^6.9.0"
 	}
 }
