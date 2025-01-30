@@ -10,7 +10,7 @@ class ItemController extends Controller
 {
     public function index()
     {
-        $items = Item::all();
+        $items = Item::orderBy('name', 'asc')->get();
         return view('admin.item.index', compact('items'));
     }
 
@@ -62,19 +62,8 @@ class ItemController extends Controller
         return view('admin.item.edit', compact('item', 'categories'));
     }
 
-
-
     public function update(Request $request, Item $item)
     {
-        // $request->validate([
-        //     'name' => 'required|string|max:255',
-        //     'description' => 'required|string',
-        //     'price' => 'required|numeric',
-        //     'category' => 'required|string|max:255',
-        //     'is_active' => 'required|boolean',
-        // ]);
-
-        // $item->update($request->all());
 
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
@@ -110,11 +99,9 @@ class ItemController extends Controller
 
     public function destroy(Item $item)
     {
-        // Set is_active to false
         $item->is_active = false;
         $item->save();
 
-        // Perform soft delete
         $item->delete();
 
         return redirect()->route('items.index')->with('success', 'Item deleted successfully.');

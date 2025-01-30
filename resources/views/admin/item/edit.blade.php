@@ -2,12 +2,6 @@
 
 @section('title', 'Edit Menu')
 
-@section('css')
-<link rel="stylesheet" crossorigin href="{{ asset('assets/extensions/filepond/filepond.css') }}">
-<link rel="stylesheet" crossorigin href="{{ asset('assets/extensions/filepond-plugin-image-preview/filepond-plugin-image-preview.css') }}">
-<link rel="stylesheet" crossorigin href="{{ asset('assets/extensions/toastify-js/src/toastify.css') }}">
-@endsection
-
 @section('content')
 <div class="page-title">
     <div class="row mb-3">
