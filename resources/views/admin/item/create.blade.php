@@ -32,9 +32,9 @@
 
             @if ($errors->any())
             <div class="alert alert-danger">
-                <h4 class="alert-heading">Submit error!</h4>
+                <h4 class="alert-heading"><i class="bi bi-exclamation-triangle-fill"></i> Gagal</h4>
                 @foreach ($errors->all() as $error)
-                    <li><i class="bi bi-file-excel"></i> {{ $error }}</li>
+                    <li>{{ $error }}</li>
                 @endforeach
             </div>
             @endif

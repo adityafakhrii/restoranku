@@ -34,34 +34,59 @@
     <section class="section">
         <div class="card">
             <div class="card-body">
+
+                @if (session('success'))
+                    <div class="alert alert-success">
+                        <h5 class="alert-heading"><i class="bi bi-check-circle-fill"></i> Berhasil!</h5>
+                        <p>{{ session('success') }}</p>
+                    </div>
+                @endif
+
                 <table class="table table-striped" id="table1">
                     <thead>
                         <tr>
+                            <th>No</th>
+                            <th>Gambar</th>
                             <th>Nama Item</th>
                             <th>Deskripsi</th>
                             <th>Harga</th>
                             <th>Kategori</th>
-                            <th>Gambar</th>
                             <th>Status</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($items as $item)
                         <tr>
-                            <td>{{ $item->name }}</td>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>
+                                <img src="{{ asset('img_item_upload/' . $item->img) }}" alt="{{ $item->name }}" width="60" onerror="this.onerror=null;this.src='{{ $item->img }}';">
+                            </td>
+                            <td style="width: 20%;">{{ $item->name }}</td>
                             <td>{{ Str::limit($item->description, 15) }}</td>
                             <td>{{ 'Rp' . number_format($item->price, 0, ',', '.') }}</td>
                             <td>
                                 <span class="badge {{ $item->category->cat_name == 'Makanan' ? 'bg-warning' : 'bg-info' }}">
                                     {{ $item->category->cat_name }}
                                 </span>
-                            </td></td>
-                            <td>{{ $item->img }}</td>
+                            </td>
                             <td>
                                 <span class="badge {{ $item->is_active == 1 ? 'bg-success' : 'bg-danger' }}">
                                     {{ $item->is_active == 1 ? 'Aktif' : 'Tidak Aktif' }}
                                 </span>
-                            </td></td>
+                            </td>
+                            <td>
+                                <a href="{{ route('items.edit', $item->id) }}" class="btn btn-warning btn-sm">
+                                    <i class="bi bi-pencil"></i> Ubah
+                                </a>
+                                <form action="{{ route('items.destroy', $item->id) }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus item ini?')">
+                                        <i class="bi bi-trash"></i> Hapus
+                                    </button>
+                                </form>
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>
