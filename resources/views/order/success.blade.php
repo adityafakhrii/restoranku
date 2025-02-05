@@ -4,31 +4,45 @@
 
 @section('content')
 
-<div class="container py-5 d-flex justify-content-center">
-    <div class="receipt border p-4 bg-white shadow" style="width: 350px; text-align: center;">
-        <h2 class="text-center mb-3">Struk Pembelian</h2>
+<div class="container-fluid py-5 d-flex justify-content-center">
+    <div class="receipt border p-4 bg-white shadow" style="width: 450px;margin-top: 5rem">
+        <h5 class="text-center mb-2">Pesanan Berhasil Dibuat! <br></h5>
+        <p class="text-center"><span class="badge bg-danger">Menunggu Pembayaran</span></p>
         <hr>
-        <p class="fw-bold">Kode Bayar: <span class="text-primary">{{ $order_code }}</span></p>
+        <h4 class="fw-bold text-center">Kode Bayar: <br><span class="text-primary">{{ $order->order_code }}</span></h4>
         <hr>
-        <h4 class="mb-3">Detail Pesanan</h4>
+        <h5 class="mb-3 text-center">Detail Pesanan</h5>
         <table class="table table-borderless">
             <tbody>
-                @foreach ($orderItems as $item)
+                @foreach ($orderItems as $orderItem)
                 <tr>
-                    <td>{{ $item['name'] }} ({{ $item['qty'] }})</td>
-                    <td class="text-end">Rp{{ number_format($item['price'] * $item['qty'], 0, ',', '.') }}</td>
+                    <td>{{ Str::limit($orderItem->item->name, 25) }} ({{ $orderItem->quantity }})</td>
+                    <td class="text-end">Rp{{ number_format($orderItem->price, 0, ',', '.') }}</td>
                 </tr>
                 @endforeach
-                <tr class="fw-bold border-top">
-                    <td>Total</td>
-                    <td class="text-end">Rp{{ number_format($total, 0, ',', '.') }}</td>
-                </tr>
             </tbody>
         </table>
+        <table class="table table-borderless">
+            <tbody>
+                <tr class="fw-bold border-top align-middle">
+                    <td>Subtotal</td>
+                    <td class="text-end">Rp{{ number_format($order->subtotal, 0, ',', '.') }}</td>
+                </tr>
+                <tr class="align-middle">
+                    <td>PPN (10%)</td>
+                    <td class="text-end">Rp{{ number_format($order->tax, 0, ',', '.') }}</td>
+                </tr>
+                <tr class="fw-bold border-bottom align-middle">
+                    <td>Total</td>
+                    <td class="text-end">Rp{{ number_format($order->grand_total, 0, ',', '.') }}</td>
+                </tr>
+            </tbody>
+
+        </table>
+        {{-- <hr> --}}
+        <p class="small text-center px-5">Tunjukkan kode bayar ini ke kasir untuk menyelesaikan pembayaran</p>
         <hr>
-        <p class="small">Tunjukkan kode bayar ini ke kasir untuk menyelesaikan pembayaran.</p>
-        <hr>
-        <a href="{{ route('menu', ['table' => $tableNumber]) }}" class="btn btn-primary w-100">Kembali ke Menu</a>
+        <a href="{{ route('menu') }}" class="btn btn-primary w-100">Kembali ke Menu</a>
     </div>
 </div>
 

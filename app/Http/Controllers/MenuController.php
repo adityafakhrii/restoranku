@@ -139,7 +139,9 @@ class MenuController extends Controller
         $order = Order::create([
             'order_code' => 'ORD-' . strtoupper(uniqid()),
             'user_id' => $user->id,
-            'total_amount' => $totalAmount,
+            'subtotal' => $totalAmount,
+            'tax' => $totalAmount * 0.1,
+            'grand_total' => $totalAmount + ($totalAmount * 0.1),
             'status' => 'pending',
             'table_number' => $tableNumber,
             'payment_method' => $request->payment_method,
@@ -155,8 +157,9 @@ class MenuController extends Controller
                 'order_id' => $order->id,
                 'item_id' => $item['id'],
                 'quantity' => $item['qty'],
-                'price' => $item['price'],
-                'total_price' => $item['price'] * $item['qty']
+                'price' => $item['price'] * $item['qty'],
+                'tax' => ($item['price'] * $item['qty']) * 0.1,
+                'total_price' => ($item['price'] * $item['qty'] + (($item['price'] * $item['qty']) * 0.1))
             ]);
         }
 
@@ -168,19 +171,30 @@ class MenuController extends Controller
         // return redirect()->route('order.success', ['order_code' => $order->order_code]);
 
         // Redirect ke halaman konfirmasi dengan order_code dan order_id
-        return redirect()->route('checkout.success', ['order_code' => $order->order_code, 'order_id' => $order->id]);
+        // return redirect()->route('checkout.success', ['order_code' => $order->order_code, 'order_id' => $order->id]);
+        return redirect()->route('checkout.success', ['orderId' => $order->order_code]);
+
     }
 
     public function orderSuccess(Request $request, $orderId)
     {
-        $orderId = Order::where('order_code', $orderId)->first();
-        $orderItems = OrderItem::where('order_id', $orderId)->get();
+        $order = Order::where('order_code', $orderId)->first();
 
-        if (!$orderId) {
+        if (!$order) {
             return redirect()->route('menu')->with('error', 'Order tidak ditemukan.');
         }
 
-        return view('order.success', compact('orderId','orderItems'));
+        $orderItems = OrderItem::where('order_id', $order->id)->get();
+
+        return view('order.success', compact('order', 'orderItems'));
+
+        // $orderItems = OrderItem::where('order_id', $order->id)->get();
+
+        // if (!$order) {
+        //     return redirect()->route('menu')->with('error', 'Order tidak ditemukan.');
+        // }
+
+        // return view('order.success', compact('order','orderItems'));
     }
 
 
