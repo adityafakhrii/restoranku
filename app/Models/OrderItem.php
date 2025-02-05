@@ -14,6 +14,7 @@ class OrderItem extends Model
         'item_id',
         'quantity',
         'price',
+        'total_price',
         'created_at',
         'updated_at'
     ];

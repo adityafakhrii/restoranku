@@ -5,13 +5,23 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Item;
 Use Illuminate\Support\Facades\Session;
+Use App\Models\Order;
+Use App\Models\OrderItem;
 
 class MenuController extends Controller
 {
-    public function index()
+    // public function index($table)
+    public function index(Request $request)
     {
+        $tableNumber = $request->query('meja');
+        if ($tableNumber) {
+            // Simpan ke session
+            Session::put('tableNumber', $tableNumber);
+        }
+
         $items = Item::where('is_active', 1)->orderBy('name', 'asc')->get();
-        return view('menu', compact('items'));
+        // return view('menu', compact('items', 'table'));
+        return view('menu', compact('items', 'tableNumber'));
     }
 
     public function cart()
@@ -86,8 +96,6 @@ class MenuController extends Controller
         return response()->json(['success' => false]);
     }
 
-
-
     public function clearCart()
     {
         Session::forget('cart');
@@ -101,7 +109,79 @@ class MenuController extends Controller
             return redirect()->route('cart')->with('error', 'Keranjang Anda kosong.');
         }
 
+        $tableNumber = Session::get('tableNumber');
+
         // Lakukan proses checkout disini (misal simpan data ke order)
-        return view('checkout', compact('cart'));
+        return view('checkout', compact('cart','tableNumber'));
     }
+
+    public function store(Request $request)
+    {
+        $cart = session()->get('cart', []);
+        $tableNumber = Session::get('tableNumber');
+
+        if (empty($cart)) {
+            return redirect()->route('cart')->with('error', 'Keranjang Anda kosong.');
+        }
+
+        // Hitung total harga
+        $totalAmount = 0;
+        foreach ($cart as $item) {
+            $totalAmount += $item['price'] * $item['qty'];
+        }
+
+        // Buat user baru atau temukan user yang sudah ada
+        $user = \App\Models\User::firstOrCreate(
+            ['phone' => $request->phone, 'fullname' => $request->fullname, 'role_id' => 4]
+        );
+
+        // Buat transaksi order
+        $order = Order::create([
+            'order_code' => 'ORD-' . strtoupper(uniqid()),
+            'user_id' => $user->id,
+            'total_amount' => $totalAmount,
+            'status' => 'pending',
+            'table_number' => $tableNumber,
+            'payment_method' => $request->payment_method,
+            'notes' => $request->notes,
+        ]);
+
+        // Simpan order_code ke session
+        // Session::put('order_id', $order->order_id);
+
+        // Simpan item-item ke order_item
+        foreach ($cart as $itemId => $item) {
+            OrderItem::create([
+                'order_id' => $order->id,
+                'item_id' => $item['id'],
+                'quantity' => $item['qty'],
+                'price' => $item['price'],
+                'total_price' => $item['price'] * $item['qty']
+            ]);
+        }
+
+        // Kosongkan keranjang
+        Session::forget('cart');
+        // Session::forget('tableNumber');
+
+        // Redirect ke halaman konfirmasi
+        // return redirect()->route('order.success', ['order_code' => $order->order_code]);
+
+        // Redirect ke halaman konfirmasi dengan order_code dan order_id
+        return redirect()->route('checkout.success', ['order_code' => $order->order_code, 'order_id' => $order->id]);
+    }
+
+    public function orderSuccess(Request $request, $orderId)
+    {
+        $orderId = Order::where('order_code', $orderId)->first();
+        $orderItems = OrderItem::where('order_id', $orderId)->get();
+
+        if (!$orderId) {
+            return redirect()->route('menu')->with('error', 'Order tidak ditemukan.');
+        }
+
+        return view('order.success', compact('orderId','orderItems'));
+    }
+
+
 }

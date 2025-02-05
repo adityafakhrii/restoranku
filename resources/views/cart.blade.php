@@ -58,7 +58,7 @@
                                                 <i class="fa fa-minus"></i>
                                             </button>
                                         </div>
-                                        <input type="text" class="form-control form-control-sm text-center border-0" id="qty-{{ $item['id'] }}" value="{{ $item['qty'] }}" readonly>
+                                        <input type="text" class="form-control form-control-sm text-center border-0 bg-transparent" id="qty-{{ $item['id'] }}" value="{{ $item['qty'] }}" readonly>
                                         <div class="input-group-btn">
                                             <button class="btn btn-sm btn-plus rounded-circle bg-light border" onclick="updateQuantity({{ $item['id'] }}, 1)">
                                                 <i class="fa fa-plus"></i>
