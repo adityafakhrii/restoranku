@@ -12,6 +12,10 @@ use App\Http\Controllers\MenuController;
 Route::get('/menu', [MenuController::class, 'index'])->name('menu');
 // Route::get('/menu/{tableNumber}', [MenuController::class, 'index'])->name('menu');
 
+Route::get('/', function () {
+    return redirect()->route('menu');
+});
+
 Route::get('/cart', [MenuController::class, 'cart'])->name('cart');
 Route::post('/cart/add', [MenuController::class, 'addToCart'])->name('cart.add');
 Route::post('/cart/remove', [MenuController::class, 'removeFromCart'])->name('cart.remove');
