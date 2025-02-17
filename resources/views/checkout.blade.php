@@ -14,7 +14,7 @@
 <div class="container-fluid py-5">
     <div class="container py-5">
         <h1 class="mb-4">Detail Pembayaran</h1>
-        <form action="{{ route('checkout.store') }}" method="POST">
+        <form id="checkout-form" action="{{ route('checkout.store') }}" method="POST">
             @csrf
             <div class="row g-5">
                 <div class="col-md-12 col-lg-6 col-xl-6">
@@ -34,7 +34,7 @@
                         <div class="col-md-12 col-lg-4">
                             <div class="form-item w-100">
                                 <label class="form-label my-3">Nomor Meja<sup>*</sup></label>
-                                <input type="text" class="form-control" name="tablenumber" value="{{ $tableNumber ?? 'Tidak ada nomor meja' }}" required disabled>
+                                <input type="text" class="form-control" value="{{ $tableNumber ?? 'Tidak ada nomor meja' }}" disabled>
                             </div>
                         </div>
                     </div>
@@ -118,11 +118,11 @@
                                     <h5 class="mb-0 ps-4 me-4">Metode Pembayaran</h5>
                                     <div class="mb-0 pe-4 fs-5 fw-bold">
                                         <div class="form-check">
-                                            <input type="radio" class="form-check-input bg-primary border-0" id="qris" name="payment_method" value="qris">
+                                            <input type="radio" class="form-check-input" id="qris" name="payment_method" value="qris">
                                             <label class="form-check-label" for="qris">QRIS</label>
                                         </div>
                                         <div class="form-check">
-                                            <input type="radio" class="form-check-input bg-primary border-0" id="cash" name="payment_method" value="tunai">
+                                            <input type="radio" class="form-check-input" id="cash" name="payment_method" value="tunai">
                                             <label class="form-check-label" for="cash">Tunai</label>
                                         </div>
                                     </div>
@@ -130,7 +130,7 @@
                             </div>
 
                             <div class="d-flex justify-content-end">
-                                <button type="submit" class="btn border-secondary py-3 text-uppercase text-primary">Konfirmasi Pesanan</button>
+                                <button type="button" id="pay-button" class="btn border-secondary py-3 text-uppercase text-primary">Konfirmasi Pesanan</button>
                             </div>
 
                         </div>
@@ -140,4 +140,102 @@
         </form>
     </div>
 </div>
+
+{{-- <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}"></script>
+<script>
+    document.getElementById('pay-button').addEventListener('click', function () {
+        let form = document.getElementById('checkout-form');
+        let paymentMethod = document.querySelector('input[name="payment_method"]:checked');
+
+        if (!paymentMethod) {
+            alert("Pilih metode pembayaran terlebih dahulu!");
+            return;
+        }
+
+        if (paymentMethod.value === 'tunai') {
+            form.submit();
+        } else {
+            fetch("{{ route('checkout.store') }}", {
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.snap_token) {
+                        snap.pay(data.snap_token, {
+                            onSuccess: function(result){
+                                window.location.href = "/checkout/success/" + data.order_id;
+                            },
+                            onPending: function(result){
+                                alert("Menunggu pembayaran selesai");
+                            },
+                            onError: function(result){
+                                alert("Pembayaran gagal");
+                            }
+                        });
+                    } else {
+                        alert("Terjadi kesalahan, coba lagi.");
+                    }
+                })
+                .catch(error => console.error("Error:", error));
+        }
+    });
+</script> --}}
+
+
+<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const payButton = document.getElementById("pay-button");
+        const form = document.querySelector("form");
+
+        payButton.addEventListener("click", function () {
+            let paymentMethod = document.querySelector('input[name="payment_method"]:checked');
+
+            if (!paymentMethod) {
+                alert("Pilih metode pembayaran terlebih dahulu!");
+                return;
+            }
+
+            paymentMethod = paymentMethod.value;
+            let formData = new FormData(form);
+
+            if (paymentMethod === "qris") {
+                fetch("{{ route('checkout.store') }}", {
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.snap_token) {
+                        snap.pay(data.snap_token, {
+                            onSuccess: function(result){
+                                window.location.href = "/checkout/success/" + data.order_code;
+                            },
+                            onPending: function(result){
+                                alert("Menunggu pembayaran selesai");
+                            },
+                            onError: function(result){
+                                alert("Pembayaran gagal");
+                            }
+                        });
+                    } else {
+                        alert("Terjadi kesalahan, coba lagi.");
+                    }
+                })
+                .catch(error => console.error("Error:", error));
+            } else {
+                form.submit(); // Langsung submit kalau tunai
+            }
+        });
+    });
+</script>
+
+
 @endsection

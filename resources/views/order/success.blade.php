@@ -7,7 +7,11 @@
 <div class="container-fluid py-5 d-flex justify-content-center">
     <div class="receipt border p-4 bg-white shadow" style="width: 450px;margin-top: 5rem">
         <h5 class="text-center mb-2">Pesanan Berhasil Dibuat! <br></h5>
-        <p class="text-center"><span class="badge bg-danger">Menunggu Pembayaran</span></p>
+        @if ($order->payment_method == 'tunai')
+            <p class="text-center"><span class="badge bg-danger">Menunggu Pembayaran</span></p>
+        @elseif ($order->payment_method == 'qris')
+            <p class="text-center"><span class="badge bg-success">Pembayaran Berhasil, Pesanan Segera Diproses</span></p>
+        @endif
         <hr>
         <h4 class="fw-bold text-center">Kode Bayar: <br><span class="text-primary">{{ $order->order_code }}</span></h4>
         <hr>
