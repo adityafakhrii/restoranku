@@ -19,7 +19,7 @@ class ItemFactory extends Factory
         return [
             'name' => fake()->words(3, true),
             'description' => fake()->paragraph(),
-            'price' => fake()->randomElement(range(10000, 1000000, 10000)),
+            'price' => fake()->randomElement([50000, 100000, 1000000]),
             'category_id' => fake()->numberBetween(1, 2),
             'img' => fake()->randomElement([
                 'https://images.unsplash.com/photo-1591325418441-ff678baf78ef',
