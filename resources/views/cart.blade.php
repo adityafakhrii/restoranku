@@ -100,11 +100,7 @@
                             <p class="mb-0">Rp{{ number_format($subtotal, 0, ',', '.') }}</p>
                         </div>
                         <div class="d-flex justify-content-between">
-<<<<<<< HEAD
-                            <p class="mb-0 me-4">Pajak (10%)</p>
-=======
                             <p class="mb-0 me-4">PPN (10%)</p>
->>>>>>> feature/user
                             <div class="">
                                 <p class="mb-0">Rp{{ number_format($tax, 0, ',', '.') }}</p>
                             </div>
