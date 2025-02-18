@@ -58,7 +58,7 @@
                                                 <i class="fa fa-minus"></i>
                                             </button>
                                         </div>
-                                        <input type="text" class="form-control form-control-sm text-center border-0" id="qty-{{ $item['id'] }}" value="{{ $item['qty'] }}" readonly>
+                                        <input type="text" class="form-control form-control-sm text-center border-0 bg-transparent" id="qty-{{ $item['id'] }}" value="{{ $item['qty'] }}" readonly>
                                         <div class="input-group-btn">
                                             <button class="btn btn-sm btn-plus rounded-circle bg-light border" onclick="updateQuantity({{ $item['id'] }}, 1)">
                                                 <i class="fa fa-plus"></i>
@@ -100,7 +100,11 @@
                             <p class="mb-0">Rp{{ number_format($subtotal, 0, ',', '.') }}</p>
                         </div>
                         <div class="d-flex justify-content-between">
+<<<<<<< HEAD
                             <p class="mb-0 me-4">Pajak (10%)</p>
+=======
+                            <p class="mb-0 me-4">PPN (10%)</p>
+>>>>>>> feature/user
                             <div class="">
                                 <p class="mb-0">Rp{{ number_format($tax, 0, ',', '.') }}</p>
                             </div>
