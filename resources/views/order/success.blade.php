@@ -44,7 +44,11 @@
 
         </table>
         {{-- <hr> --}}
-        <p class="small text-center px-5">Tunjukkan kode bayar ini ke kasir untuk menyelesaikan pembayaran</p>
+        @if ($order->payment_method == 'tunai')
+            <p class="small text-center px-5">Tunjukkan kode bayar ini ke kasir untuk menyelesaikan pembayaran. Jangan lupa senyum ya!</p>
+        @elseif ($order->payment_method == 'qris')
+            <p class="small text-center px-5">Yeay! Pembayaran sukses. Duduk manis ya, pesanan kamu segera kami proses!</p>
+        @endif
         <hr>
         <a href="{{ route('menu') }}" class="btn btn-primary w-100">Kembali ke Menu</a>
     </div>
