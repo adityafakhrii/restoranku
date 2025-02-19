@@ -11,18 +11,32 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $totalItems = Item::count();
-        $totalUsers = User::whereHas('role', function($query) {
-            $query->where('role_name', '!=', 'guest');
-        })->count();
+        // Admin
         $totalOrders = Order::count();
         $totalRevenue = Order::sum('grand_total');
 
+        // Cashier
+        $totalPendingOrders = Order::where('status', 'pending')->whereDate('created_at', date('Y-m-d'))->count();
+        $totalTodayOrders = Order::whereDate('created_at', date('Y-m-d'))->count();
+        $totalCompletedOrders = Order::where('status', 'cooked')->count();
+        $todayRevenue = Order::whereDate('created_at', date('Y-m-d'))->sum('grand_total');
+
+        // Chef
+        $todayUncookedOrders = Order::where('status', 'settlement')->whereDate('created_at', date('Y-m-d'))->count();
+        $totalCookedOrders = Order::where('status', 'cooked')->whereDate('created_at', date('Y-m-d'))->count();
+        $todayOrders = Order::whereDate('created_at', date('Y-m-d'))->count();
+
+
         return view('admin.dashboard', [
-            'totalItems' => $totalItems,
-            'totalUsers' => $totalUsers,
             'totalOrders' => $totalOrders,
-            'totalRevenue' => $totalRevenue
+            'totalRevenue' => $totalRevenue,
+            'totalPendingOrders' => $totalPendingOrders,
+            'totalTodayOrders' => $totalTodayOrders,
+            'totalCompletedOrders' => $totalCompletedOrders,
+            'todayRevenue' => $todayRevenue,
+            'todayUncookedOrders' => $todayUncookedOrders,
+            'totalCookedOrders' => $totalCookedOrders,
+            'todayOrders' => $todayOrders
         ]);
     }
 
