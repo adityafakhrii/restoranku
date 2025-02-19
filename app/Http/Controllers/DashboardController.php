@@ -18,12 +18,29 @@ class DashboardController extends Controller
         $totalOrders = Order::count();
         $totalRevenue = Order::sum('grand_total');
 
-
         return view('admin.dashboard', [
             'totalItems' => $totalItems,
             'totalUsers' => $totalUsers,
             'totalOrders' => $totalOrders,
             'totalRevenue' => $totalRevenue
         ]);
+    }
+
+    public function sales()
+    {
+        $orders = Order::with('user')
+            ->selectRaw('MONTH(created_at) as month, COUNT(*) as total_orders')
+            ->groupBy('month')
+            ->orderBy('month', 'asc')
+            ->get();
+
+        $temp = [];
+        $i = 0;
+        foreach ($orders as $order) {
+            $temp[$i] = $order->total_orders;
+            $i++;
+        }
+
+        return response()->json($temp);
     }
 }
