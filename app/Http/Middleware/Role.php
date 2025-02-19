@@ -14,13 +14,14 @@ class Role
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, int $roleID): Response
+    public function handle(Request $request, Closure $next, string $role): Response
     {
         if (Auth::guest()) {
             return redirect()->route('login');
         }
 
-        if (Auth::user()->role_id != $roleID) {
+        $roles = explode('|', $role);
+        if (!in_array(Auth::user()->role->role_name, $roles)) {
             abort(403);
         }
 
