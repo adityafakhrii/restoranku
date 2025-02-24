@@ -26,4 +26,9 @@ class OrderController extends Controller
 
         return redirect()->route('orders.index')->with('success', 'Order status updated to settlement.');
     }
+
+    public function show(Order $order) 
+    {
+        return view('admin.orders.show', compact('order'));
+    }
 }
