@@ -26,7 +26,7 @@ class OrderController extends Controller
         }
         $order->save();
 
-        return redirect()->route('orders.index')->with('success', 'Order status updated to settlement.');
+        return redirect()->route('orders.index')->with('success', 'Order status updated successfully');
     }
 
     public function show(Order $order)
