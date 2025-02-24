@@ -83,6 +83,12 @@
                                     @endif
                                 @elseif(Auth::user()->role->role_name == 'chef')
                                     @if($order->status == 'settlement')
+
+                                        <span class="badge bg-primary">
+                                            <a href="{{ route('orders.show', $order->id) }}" class="text-white">
+                                                <i class="bi bi-eye"></i> Lihat Detail
+                                            </a>
+                                        </span>
                                         <form action="{{ route('orders.updateStatus', $order->id) }}" method="POST" style="display:inline;">
                                             @csrf
                                             <button type="submit" class="btn btn-warning btn-sm" onclick="return confirm('Apakah Anda yakin ingin memulai memasak pesanan ini?')">
@@ -90,7 +96,11 @@
                                             </button>
                                         </form>
                                     @elseif($order->status == 'cooked')
-                                        <span class="badge bg-success">Selesai</span>
+                                    <span class="badge bg-primary">
+                                        <a href="{{ route('orders.show', $order->id) }}" class="text-white">
+                                            <i class="bi bi-eye"></i> Lihat Detail
+                                        </a>
+                                    </span>
                                     @elseif($order->status == 'pending')
                                         <span class="badge bg-secondary">Menunggu Pembayaran</span>
                                     @endif

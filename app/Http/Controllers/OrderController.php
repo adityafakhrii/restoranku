@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
+use App\Models\OrderItem;
 
 class OrderController extends Controller
 {
@@ -27,8 +28,9 @@ class OrderController extends Controller
         return redirect()->route('orders.index')->with('success', 'Order status updated to settlement.');
     }
 
-    public function show(Order $order) 
+    public function show(Order $order)
     {
-        return view('admin.orders.show', compact('order'));
+        $orderItems = OrderItem::where('order_id', $order->id)->get();
+        return view('admin.orders.show', compact('order', 'orderItems'));
     }
 }
