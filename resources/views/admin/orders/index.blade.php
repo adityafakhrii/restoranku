@@ -64,7 +64,7 @@
                             <td>{{ $order->table_number }}</td>
                             <td>{{ $order->payment_method }}</td>
                             <td>{{ $order->notes ? $order->notes : '-' }}</td>
-                            <td>{{ $order->created_at }}</td>
+                            <td>{{ $order->created_at->format('d-m-Y, H:i') }}</td>
                             <td>
                                 @if(Auth::user()->role->role_name == 'admin' || Auth::user()->role->role_name == 'cashier')
                                     @if($order->payment_method == 'tunai' && $order->status == 'pending')
