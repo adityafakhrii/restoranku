@@ -7,7 +7,7 @@ use App\Models\Item;
 Use Illuminate\Support\Facades\Session;
 Use App\Models\Order;
 Use App\Models\OrderItem;
-
+Use Illuminate\Support\Facades\Validator;
 class MenuController extends Controller
 {
     public function index(Request $request)
@@ -117,6 +117,16 @@ class MenuController extends Controller
 
         if (empty($cart)) {
             return redirect()->route('cart')->with('error', 'Keranjang Anda kosong.');
+        }
+
+        // Disini validasi dulu.
+        $validator = Validator::make($request->all(), [
+            'fullname' => 'required|string|max:255',
+            'phone' => 'required|string|max:15'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator);
         }
 
         $totalAmount = 0;
