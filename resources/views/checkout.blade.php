@@ -20,7 +20,7 @@
                 <div class="alert alert-danger">{{$error}}</div>
             @endforeach
         @endif
-        
+
         <form id="checkout-form" action="{{ route('checkout.store') }}" method="POST">
             @csrf
             <div class="row g-5">

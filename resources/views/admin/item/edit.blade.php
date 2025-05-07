@@ -90,7 +90,7 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="image">Gambar</label>
-                                @if ($item->img)
+                                @if ($item->img)`
                                     <div class="mt-2">
                                         <img src="{{ asset('img_item_upload/' . $item->img) }}" alt="{{ $item->name }}" class="img-thumbnail" width="200" onerror="this.onerror=null;this.src='{{ $item->img }}';">
                                     </div>

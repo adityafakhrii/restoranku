@@ -68,8 +68,6 @@
                                 </td>
                                 <td>Rp{{ number_format($item['price'] * $item['qty'], 0, ',', '.') }}</td>
                                 <td>
-                                    {{-- <a href="{{ route('cart.remove', $item['id']) }}" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus item ini?')"><i class="bi bi-trash-fill"></i></a> --}}
-
                                     <button class="btn btn-sm btn-danger" onclick="if(confirm('Apakah Anda yakin ingin menghapus item ini?')) { removeItemFromCart({{ $item['id'] }}) }">
                                         <i class="bi bi-trash-fill"></i>
                                     </button>
