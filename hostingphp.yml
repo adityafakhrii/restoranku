@@ -24,6 +24,7 @@ database:
           type: timestamp
 commands:
   - "composer install --no-dev --optimize-autoloader"
+  - "php artisan migrate --force"
   - "php artisan key:generate"
   - "php artisan config:cache"
   - "php artisan route:cache"
