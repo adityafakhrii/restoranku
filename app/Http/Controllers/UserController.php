@@ -69,7 +69,7 @@ class UserController extends Controller
                 'string',
                 'min:8',
                 'confirmed',
-                function ($attribute, $value, $fail) use ($user) {
+                function ($attribute, $value, $fail) use  ($user) {
                     if (Hash::check($value, $user->password)) {
                         $fail('The new password cannot be the same as the old password.');
                     }
