@@ -1,10 +1,6 @@
 <!-- Improved compatibility of back to top link -->
 <a id="readme-top"></a>
 
-<!-- PROJECT SHIELDS -->
-[![Issues][issues-shield]][issues-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
-
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
@@ -17,14 +13,7 @@
   <p align="center">
     Aplikasi restoran modern dengan QR Code ordering dan pembayaran digital Midtrans
     <br />
-    <a href="#"><strong>Explore the docs »</strong></a>
     <br />
-    <br />
-    <a href="#">View Demo</a>
-    ·
-    <a href="#">Report Bug</a>
-    ·
-    <a href="#">Request Feature</a>
   </p>
 </div>
 
@@ -58,7 +47,10 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](#)
+![Menu](https://i.ibb.co/fdBGjQ7n/Screenshot-2025-06-03-143129.png)
+![Cart](https://i.ibb.co/4RhNZ2my/Screenshot-2025-06-03-143208.png)
+![Payment Gateway Midtrans](https://i.ibb.co/fVxGY7jw/Screenshot-2025-06-03-143347.png)
+
 
 Restaurant Modern App adalah solusi komprehensif untuk restoran yang ingin memberikan pengalaman dining modern kepada pelanggan mereka. Aplikasi ini memungkinkan pelanggan untuk memesan makanan melalui QR Code dan melakukan pembayaran digital via Midtrans QRIS atau cash langsung ke kasir.
 
