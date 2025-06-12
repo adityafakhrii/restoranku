@@ -12,5 +12,7 @@
     <link rel="stylesheet" crossorigin href="{{ asset('assets/compiled/css/app-dark.css') }}">
     <link rel="stylesheet" crossorigin href="{{ asset('assets/compiled/css/iconly.css') }}">
 
+    @vite('resources/js/app.js')
+
     @yield('css')
 </head>

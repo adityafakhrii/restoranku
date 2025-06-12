@@ -21,6 +21,11 @@
         </div>
         <div class="sidebar-menu">
             <ul class="menu">
+
+                <div id="notification">
+
+                </div>
+
                 <li class="sidebar-title">Menu</li>
                 <li class="sidebar-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
                     <a href="{{ route('dashboard') }}" class='sidebar-link'>
