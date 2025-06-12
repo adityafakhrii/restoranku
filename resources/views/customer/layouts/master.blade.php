@@ -9,7 +9,7 @@
         <!-- Spinner End -->
 
         <!-- Navbar start -->
-        @include('layouts.__navbar')
+        @include('customer.layouts.__navbar')
         <!-- Navbar End -->
 
         <!-- Content Start-->
@@ -17,7 +17,7 @@
         <!-- Content End-->
 
         <!-- Footer & Copyrigh Start -->
-        @include('layouts.__footer')
+        @include('customer.layouts.__footer')
         <!-- Footer & Copyright End -->
 
         <!-- Back to Top -->

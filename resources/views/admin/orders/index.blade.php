@@ -70,7 +70,7 @@
                                     @if($order->payment_method == 'tunai' && $order->status == 'pending')
                                         <form action="{{ route('orders.updateStatus', $order->id) }}" method="POST" style="display:inline;">
                                             @csrf
-                                            <button type="submit" class="btn btn-succ ess btn-sm" onclick="return confirm('Apakah Anda yakin ingin mengkonfirmasi pembayaran?')">
+                                            <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('Apakah Anda yakin ingin mengkonfirmasi pembayaran?')">
                                                 <i class="bi bi-cash"></i> Bayar
                                             </button>
                                         </form>
