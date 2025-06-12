@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CheckoutEvent;
+use App\Events\OrderCreate;
 use Illuminate\Http\Request;
 use App\Models\Item;
 Use Illuminate\Support\Facades\Session;
@@ -19,13 +21,13 @@ class MenuController extends Controller
 
         $items = Item::where('is_active', 1)->orderBy('name', 'asc')->get();
 
-        return view('menu', compact('items', 'tableNumber'));
+        return view('customer.menu', compact('items', 'tableNumber'));
     }
 
     public function cart()
     {
         $cart = Session::get('cart', []);
-        return view('cart', compact('cart'));
+        return view('customer.cart', compact('cart'));
     }
 
     public function addToCart(Request $request)
@@ -107,7 +109,7 @@ class MenuController extends Controller
 
         $tableNumber = Session::get('tableNumber');
 
-        return view('checkout', compact('cart','tableNumber'));
+        return view('customer.checkout', compact('cart','tableNumber'));
     }
 
     public function store(Request $request)
@@ -172,6 +174,8 @@ class MenuController extends Controller
         Session::forget('cart');
 
         if ($request->payment_method === 'tunai') {
+            event(new OrderCreate($order));
+
             return redirect()->route('checkout.success', ['orderId' => $order->order_code]);
         }
         else {
@@ -219,7 +223,7 @@ class MenuController extends Controller
             $order->save();
         }
 
-        return view('order.success', compact('order', 'orderItems'));
+        return view('customer.success', compact('order', 'orderItems'));
     }
 
 
