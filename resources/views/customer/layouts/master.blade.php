@@ -1,4 +1,4 @@
-@include('layouts.__header')
+@include('customer.layouts.__header')
 
     <body>
 

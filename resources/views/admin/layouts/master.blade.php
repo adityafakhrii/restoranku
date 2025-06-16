@@ -66,12 +66,12 @@
                 // Insert toast into container
                 toastContainer.insertAdjacentHTML('beforeend', toastHTML);
 
-                // Show the toast using Bootstrap's JS
+                // Show the toast using Bootstrap's JS (no auto-hide)
                 const toastElement = document.getElementById(toastId);
-                const toast = new bootstrap.Toast(toastElement, { delay: 5000 });
+                const toast = new bootstrap.Toast(toastElement, { autohide: false });
                 toast.show();
 
-                // Remove toast from DOM after hidden
+                // Remove toast from DOM when closed by user
                 toastElement.addEventListener('hidden.bs.toast', () => {
                     toastElement.remove();
                 });
