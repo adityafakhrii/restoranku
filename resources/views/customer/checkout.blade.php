@@ -148,51 +148,6 @@
     </div>
 </div>
 
-{{-- <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}"></script>
-<script>
-    document.getElementById('pay-button').addEventListener('click', function () {
-        let form = document.getElementById('checkout-form');
-        let paymentMethod = document.querySelector('input[name="payment_method"]:checked');
-
-        if (!paymentMethod) {
-            alert("Pilih metode pembayaran terlebih dahulu!");
-            return;
-        }
-
-        if (paymentMethod.value === 'tunai') {
-            form.submit();
-        } else {
-            fetch("{{ route('checkout.store') }}", {
-                    method: "POST",
-                    body: formData,
-                    headers: {
-                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.snap_token) {
-                        snap.pay(data.snap_token, {
-                            onSuccess: function(result){
-                                window.location.href = "/checkout/success/" + data.order_id;
-                            },
-                            onPending: function(result){
-                                alert("Menunggu pembayaran selesai");
-                            },
-                            onError: function(result){
-                                alert("Pembayaran gagal");
-                            }
-                        });
-                    } else {
-                        alert("Terjadi kesalahan, coba lagi.");
-                    }
-                })
-                .catch(error => console.error("Error:", error));
-        }
-    });
-</script> --}}
-
-
 <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {

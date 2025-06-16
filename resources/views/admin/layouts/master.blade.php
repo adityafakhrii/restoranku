@@ -24,6 +24,8 @@
         </div>
     </div>
 
+    <audio id="orderSound" src="{{ asset('sounds/order-notification.wav') }}" preload="auto"></audio>
+
     <script src="{{ asset('assets/static/js/components/dark.js') }}"></script>
     <script src="{{ asset('assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
 
@@ -37,12 +39,28 @@
 
     <script type="module">
         console.log('listening on orders channel...');
+
         // Create toast container if it doesn't exist
         let toastContainer = document.querySelector('.toast-container');
 
+         // Cek posisi badge di awal (di semua halaman)
+        const badge = document.getElementById('order-badge');
+        const lastReset = localStorage.getItem('order-badge-reset');
+        const audio = document.getElementById('orderSound');
+
+        let currentCount = parseInt(localStorage.getItem('order-badge-count') || '0');
+        if (badge && currentCount > 0) {
+            badge.innerText = currentCount;
+            badge.style.display = 'inline-block';
+        }
+
+        // 2. Inisialisasi Echo dan listen event order baru
         window.Echo.channel('orders')
             .listen('.create', (data) => {
                 console.log('Order status updated: ', data);
+
+                // 🔊 Play sound
+                if (audio) audio.play();
 
                 // Create unique id for each toast
                 const toastId = 'liveToast-' + Date.now();
@@ -75,10 +93,30 @@
                 toastElement.addEventListener('hidden.bs.toast', () => {
                     toastElement.remove();
                 });
-            });
+
+                // 🔴 Tambah badge + simpan ke localStorage
+                currentCount++;
+                if (badge) {
+                    badge.innerText = currentCount;
+                    badge.style.display = 'inline-block';
+                }
+                localStorage.setItem('order-badge-count', currentCount);
+
+                });
+
+        // ✅ Reset badge hanya saat user buka halaman /orders (Kelola Pesanan)
+        if (window.location.pathname === '/orders') {
+            currentCount = 0;
+            if (badge) {
+                badge.innerText = '0';
+                badge.style.display = 'none';
+            }
+                localStorage.setItem('order-badge-count', '0');
+            }
     </script>
 
     @yield('js')
+
 
 </body>
 

@@ -175,7 +175,6 @@ class MenuController extends Controller
 
         if ($request->payment_method === 'tunai') {
             event(new OrderCreate($order));
-
             return redirect()->route('checkout.success', ['orderId' => $order->order_code]);
         }
         else {
@@ -199,6 +198,7 @@ class MenuController extends Controller
 
             try {
                 $snapToken = \Midtrans\Snap::getSnapToken($params);
+                event(new OrderCreate($order));
                 return response()->json(['snap_token' => $snapToken, 'order_code' => $order->order_code]);
             } catch (\Exception $e) {
                 return response()->json(['error' => $e->getMessage()], 500);

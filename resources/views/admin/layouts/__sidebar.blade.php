@@ -37,6 +37,9 @@
                     <a href="{{ route('orders.index') }}" class='sidebar-link'>
                         <i class="bi bi-cart-fill"></i>
                         <span>Kelola Pesanan</span>
+                        <span id="order-badge" class="badge rounded-pill bg-danger" style="display: none;">
+                            0
+                        </span>
                     </a>
                 </li>
                 @if(Auth::user()->role->role_name == 'admin')
