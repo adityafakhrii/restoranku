@@ -38,6 +38,13 @@
     <script src="{{ asset('assets/static/js/pages/component-toasts.js') }}"></script>
 
     <script type="module">
+
+        if ("Notification" in window && Notification.permission !== "granted") {
+            Notification.requestPermission().then(function (permission) {
+                console.log('Notification permission:', permission);
+            });
+        }
+
         console.log('listening on orders channel...');
 
         // Create toast container if it doesn't exist
@@ -58,6 +65,21 @@
         window.Echo.channel('orders')
             .listen('.create', (data) => {
                 console.log('Order status updated: ', data);
+
+                // 🔴 Push Notification Browser
+                if ("Notification" in window && Notification.permission === "granted") {
+                    const notif = new Notification("Pesanan Baru Masuk!", {
+                        body: `Kode Pesanan: ${data.order_code}`,
+                        icon: "/img/order-icon.png", // ganti sesuai icon lo
+                        vibrate: [200, 100, 200],
+                    });
+
+                    notif.onclick = function (event) {
+                        event.preventDefault();
+                        window.open('/orders', '_blank');
+                        notif.close();
+                    };
+                }
 
                 // 🔊 Play sound
                 if (audio) audio.play();
@@ -107,12 +129,13 @@
         // ✅ Reset badge hanya saat user buka halaman /orders (Kelola Pesanan)
         if (window.location.pathname === '/orders') {
             currentCount = 0;
-            if (badge) {
-                badge.innerText = '0';
-                badge.style.display = 'none';
-            }
-                localStorage.setItem('order-badge-count', '0');
-            }
+        if (badge) {
+            badge.innerText = '0';
+            badge.style.display = 'none';
+        }
+            localStorage.setItem('order-badge-count', '0');
+        }
+
     </script>
 
     @yield('js')
