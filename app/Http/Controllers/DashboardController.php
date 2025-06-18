@@ -48,13 +48,15 @@ class DashboardController extends Controller
             ->orderBy('month', 'asc')
             ->get();
 
-        $temp = [];
-        $i = 0;
+        // Inisialisasi 12 bulan dengan default 0
+        $monthlyData = array_fill(1, 12, 0);
+
+        // Masukkan total order ke bulan yang sesuai
         foreach ($orders as $order) {
-            $temp[$i] = $order->total_orders;
-            $i++;
+            $monthlyData[(int)$order->month] = $order->total_orders;
         }
 
-        return response()->json($temp);
+        // Ubah ke array numerik dari bulan Jan–Dec (0-based index untuk JS)
+        return response()->json(array_values($monthlyData));
     }
 }
