@@ -4,10 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Mazer Admin Dashboard</title>
+    <title>Login | Restoranku</title>
     <link rel="stylesheet" href="{{ asset('assets/compiled/css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/compiled/css/app-dark.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/compiled/css/auth.css') }}">
+    <link rel="icon" href="https://i.ibb.co/BVbkTRRG/Logo-Restoranku.png" type="image/x-icon">
 </head>
 
 <body>
@@ -17,7 +18,7 @@
             <div class="col-lg-5 col-12">
                 <div id="auth-left">
                     <div class="auth-logo">
-                        <a href="{{ route('dashboard') }}"><img src="https://apps.codepolitan.com/sites/learn/uploads/original/2/logo-codepolitan-originals.png" alt="Logo"></a>
+                        <a href="{{ route('dashboard') }}"><img src="https://i.ibb.co/BVbkTRRG/Logo-Restoranku.png" alt="Logo"></a>
                     </div>
                     <h1 class="auth-title">Log in.</h1>
                     <p class="auth-subtitle mb-5">Log in with your registered credentials.</p>
